@@ -1,0 +1,87 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[164]:
+
+
+import pygal
+from IPython.display import SVG, display
+import pygal
+
+class Records:
+    def __init__(self,name,age):
+        
+        self.name=name
+        self.age=age
+    
+    
+    def display(self):
+        print("Name: {} Age: {} Genger: {} Height: {} Wegiht:{} ".format(self.name,self.age,self.gender,self.height,self.weight))
+
+
+        
+        
+class KPI(Records):
+
+    def __init__(self,name,age,gender,height,weight):
+        Records.__init__(self,name,age)
+        self.gender=gender
+        self.height=height  
+        self.weight=weight 
+    
+    def display(self):
+        Records.display(self)
+        print("Genger: {} Height: {} Wegiht:{} ".format(self.gender,self.height,self.weight))
+
+
+        
+        
+    def BMI(self):
+        """""
+        https://www.cdc.gov/obesity/adult/defining.html#:~:text=If%20your%20BMI%20is%20less,falls%20within%20the%20obese%20range.
+        BMI=body mass index
+        m=mass (in kilograms)
+        h=height (height (in meters))
+        """
+        bmi=self.weight/(self.height/100)**2
+        if bmi<18.5:
+            bmi_range="underweight"
+        elif bmi>18.5 and bmi<25:
+            bmi_range="normal"
+        elif bmi>25 and bmi<30:
+            bmi_range="overweight"
+        elif bmi>30:
+            bmi_range="obese"
+        self.bmi=bmi    
+        print("Hello,{} your BMI is {} which is in {} range".format(self.name,bmi,bmi_range))
+        
+    def BMR(self):
+        """
+        Basal metabolic rate is a measurement 
+        of the number of calories needed to perform 
+        your body's most basic (basal) functions, 
+        like breathing, circulation and cell production. 
+        BMR is most accurately measured in a lab setting under very restrictive conditions
+        """
+        """
+        https://www.bmi-calculator.net/bmr-calculator/bmr-formula.php
+        Harris-Benedict Equation
+        Women: BMR = 655 + (9.6 x weight in kg) + (1.8 x height in cm) - (4.7 x age in years)
+        Men: BMR = 66 + (13.7 x weight in kg) + (5 x height in cm) - (6.8 x age in years)
+        """
+        if self.gender=="female":
+            bmr= 655 + (9.6 * self.weight) + (1.8* self.height- (4.7* self.age))
+        else:
+            bmr= 66 + (13.7*self.weight) + (5*self.height) - (6.8*self.age)
+        self.bmr=bmr
+        print("Hello,{} your BMR is around {} Kcal/day".format(self.name,bmr))
+    
+    def totalcal(self,intensity=0,time=0):
+        """
+        time= exercise time (in mintues)
+        intensity has three levels= 3(Light),4(Moderate),7(Vigorous)
+        Total calories burned = Duration (in minutes)*(MET*3.5*weight in kg)/200
+        """
+        exc_cal=time*(intensity*3.5*self.weight)/200
+        total=exc_cal+self.bmr
+        return total
