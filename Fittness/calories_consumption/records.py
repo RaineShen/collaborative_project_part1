@@ -1,40 +1,20 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[164]:
-
-
-import pygal
-from IPython.display import SVG, display
-import pygal
 
 class Records:
-    def __init__(self,name,age):
-        
+    """
+    please enter your name, age,height in cm and weight in kg
+    """
+
+    def __init__(self,name,gender,age,height,weight):
+        self.gender=gender
+        self.height=height  
+        self.weight=weight 
         self.name=name
         self.age=age
     
     
     def display(self):
-        print("Name: {} Age: {} Genger: {} Height: {} Wegiht:{} ".format(self.name,self.age,self.gender,self.height,self.weight))
-
-
-        
-        
-class KPI(Records):
-
-    def __init__(self,name,age,gender,height,weight):
-        Records.__init__(self,name,age)
-        self.gender=gender
-        self.height=height  
-        self.weight=weight 
-    
-    def display(self):
-        Records.display(self)
-        print("Genger: {} Height: {} Wegiht:{} ".format(self.gender,self.height,self.weight))
-
-
-        
+        print("Name: {} Age: {} Gender:{} Height: {}cm Wegiht: {}kg ".format(self.name,self.age,self.gender,self.height,self.weight))
+     
         
     def BMI(self):
         """""
@@ -53,7 +33,7 @@ class KPI(Records):
         elif bmi>30:
             bmi_range="obese"
         self.bmi=bmi    
-        print("Hello,{} your BMI is {} which is in {} range".format(self.name,bmi,bmi_range))
+        print("Hello,{} your BMI is {:0.2f} which is in {} range".format(self.name,bmi,bmi_range))
         
     def BMR(self):
         """
@@ -76,12 +56,31 @@ class KPI(Records):
         self.bmr=bmr
         print("Hello,{} your BMR is around {} Kcal/day".format(self.name,bmr))
     
-    def totalcal(self,intensity=0,time=0):
+    def totalcal(self):
         """
         time= exercise time (in mintues)
         intensity has three levels= 3(Light),4(Moderate),7(Vigorous)
         Total calories burned = Duration (in minutes)*(MET*3.5*weight in kg)/200
         """
+        x=1
+        while x!=0:
+            y=input("Did you do any exercises today (Yes/No): ")
+            if y== "Yes":
+                intensity=int(input("Intensity has three levels= 3(Light),4(Moderate),7(Vigorous) please enter your level: "))
+                time=int(input("Please Enter exercise time in minutes:  "))
+                x=0
+
+            if y=="No":
+                intensity=0
+                time=0
+                x=0
+        
+            else:
+                print("please check your answer, please either enter Yes or No" )
+
         exc_cal=time*(intensity*3.5*self.weight)/200
-        total=exc_cal+self.bmr
+        total=round(exc_cal+self.bmr)
+        print("Hello,the total burned calories for today is {} Kcal".format(total))
         return total
+
+
