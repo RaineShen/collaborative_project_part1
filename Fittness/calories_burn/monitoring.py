@@ -1,14 +1,15 @@
 import pygal
-from records import Records
+from Fittness.calories_burn import records
+
 from IPython.display import SVG, display
 
 
-class Monitoring(Records):
+class Monitoring(records.Records):
     """
     Aim to monitory the daily changes of weight and burned calories
     """
     def __init__(self,name,gender,age,height,weight,calories):
-        Records.__init__(self,name,gender,age,height,weight)
+        records.Records.__init__(self,name,gender,age,height,weight)
 
         self.calories=calories
         self.weight_list=[weight]
